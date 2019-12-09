@@ -36,7 +36,7 @@ $this->title = 'Login'; ?>
                         'labelOptions' => ['class' => 'control-label']
                     ])->passwordInput() ?>
 
-                    <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                    <?php //$form->field($model, 'rememberMe')->checkbox() ?>
 
                     <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-11">

@@ -7,11 +7,11 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+use app\models\Forms\ContactForm;
 
 class SiteController extends Controller
 {
+    public $layout = 'paper-dashboard/main';
     /**
      * {@inheritdoc}
      */
@@ -63,30 +63,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = 'paper-dashboard/main';
         return $this->render('index');
-    }
-
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -108,7 +85,6 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
-        $this->layout = 'paper-dashboard/main';
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
@@ -127,7 +103,6 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        $this->layout = 'paper-dashboard/main';
         return $this->render('about');
     }
 }

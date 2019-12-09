@@ -7,10 +7,9 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
 // Forms
+use app\models\Forms\Auth\LoginForm;
 use app\models\Forms\Auth\RegisterForm;
 
 class AuthController extends Controller

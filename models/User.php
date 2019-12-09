@@ -2,38 +2,64 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use Yii;
+use yii\base\NotSupportedException;
+
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+    const ACCOUNT_ACTIVE = 10;
+    const ACCOUNT_BLOCKED = 99;
+    const ACCOUNT_INACTIVE = 0;
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'user_account';
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['account_status'], 'default', 'value' => null],
+            [['account_status'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['first_name', 'last_name', 'email_address'], 'string', 'max' => 50],
+            [['user_name'], 'string', 'max' => 25],
+            [['password_hashed'], 'string', 'max' => 255],
+            [['email_address'], 'unique'],
+            [['user_name'], 'unique'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'user_name' => 'User Name',
+            'email_address' => 'Email Address',
+            'password_hashed' => 'Password Hashed',
+            'account_status' => 'Account Status',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ];
+    }
 
     /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return static::findOne($id);
     }
 
     /**
@@ -41,13 +67,12 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
+        $access = AccessToken::find()->where([
+            'access_token' => $token, 
+            'token_valid' => true
+        ])->one();
 
-        return null;
+        return (!empty($access) && strtotime($access->expires_at) >= time()) ? $access->getUser()->one() : null;
     }
 
     /**
@@ -58,13 +83,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return static::findOne(['user_name' => $username]);
     }
 
     /**
@@ -72,7 +91,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function getId()
     {
-        return $this->id;
+        return $this->primaryKey;
     }
 
     /**
@@ -80,7 +99,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->authKey;
+        throw new NotSupportedException("This method is not implemented yet");
     }
 
     /**
@@ -88,7 +107,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        return $this->authKey === $authKey;
+        throw new NotSupportedException("This method is not implemented yet");
     }
 
     /**
@@ -99,6 +118,50 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return Yii::$app->getSecurity()->validatePassword($password, $this->password_hashed);
+    }
+
+    /**
+     * Generates password hash
+     * Creates encrypted from plain text to SHA1 Hash
+     * 
+     * @param string $plain_text Plain password to be encrypted
+     * @return void nothing to returned
+     */
+    public function makePassword($plain_text) 
+    {
+        $this->password_hashed = Yii::$app->getSecurity()->generatePasswordHash($plain_text);
+    }
+
+    public function makeEmailVerifyHash()
+    {
+        $this->email_verification_hash = Yii::$app->getSecurity()->generateRandomString(50);
+    }
+
+    /**
+     * Generates Access Token
+     * 
+     * @return string Access Token
+     */
+    public function generateAccessToken()
+    {
+        $accessToken = new AccessToken();
+        $accessToken->user_id = $this->getPrimaryKey();
+        $accessToken->access_token = Yii::$app->getSecurity()->generateRandomString();
+        $accessToken->expires_at = date('Y-m-d H:i:s', (time()+3600*24*7));
+        $accessToken->token_valid = true;
+        $accessToken->save();
+
+        return $accessToken->access_token;
+    }
+
+    /**
+     * List of Access Token
+     * 
+     * @return AccessToken[] list of AccessToken
+     */
+    public function getAccessToken()
+    {
+        return $this->hasMany(AccessToken::class, ['user_id' => 'id']);
     }
 }

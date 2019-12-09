@@ -5,6 +5,9 @@ namespace app\models\Forms\Auth;
 use Yii;
 use yii\base\Model;
 
+use app\models\User;
+use GuzzleHttp\Client;
+
 class RegisterForm extends Model
 {
     public $first_name;
@@ -13,6 +16,17 @@ class RegisterForm extends Model
     public $email;
     public $password;
     public $password_repeat;
+
+    private $_user;
+    private $_http;
+
+    public function __construct()
+    {
+        $this->_user = new User;
+        $this->_http = new Client([
+            'base_uri' => Yii::$app->params['sipk_api_path']
+        ]);
+    }
 
     /**
      * @return array the validation rules.
@@ -23,6 +37,8 @@ class RegisterForm extends Model
             [['first_name', 'user_name', 'email', 'password', 'password_repeat'], 'required'],
             [['first_name', 'last_name'], 'string', 'max' => 50],
             [['email'], 'email'],
+            [['email'], 'unique', 'targetClass' => User::class, 'targetAttribute' => 'email_address'],
+            [['user_name'], 'unique', 'targetClass' => User::class, 'targetAttribute' => 'user_name'],
             [['user_name'], 'string', 'max' => 15],
             ['password', 'validatePassword'],
         ];
@@ -45,7 +61,35 @@ class RegisterForm extends Model
     {
         if ($this->validate())
         {
-            return true;
+            try {
+                $request = $this->_http->request('POST', 'auth/register', [
+                    'headers' => [
+                        'Accept' => 'application/json',
+                        'Content-Type' => 'application/json'
+                    ],
+                    'json' => [
+                        'first_name' => $this->first_name,
+                        'last_name' => $this->last_name,
+                        'user_name' => $this->user_name,
+                        'email_address' => $this->email,
+                        'password' => $this->password
+                    ]
+                ]);
+
+                if (!empty($request->getBody())):
+                    $response = json_decode($request->getBody());
+
+                    if ($response->success == true) {
+                        return true;
+                    } else {
+                        $this->addError('email', json_encode($response->data));
+                    }
+                else:
+                    $this->addError('email', 'Unknown server error occurred');
+                endif;
+            } catch(\GuzzleHttp\Exception\RequestException $e) {
+                $this->addError('email', 'Unable to access server');
+            }
         }
 
         return false;
