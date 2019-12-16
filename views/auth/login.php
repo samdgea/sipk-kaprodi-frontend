@@ -24,17 +24,12 @@ $this->title = 'Login'; ?>
                         // 'layout' => 'horizontal',
                         'fieldConfig' => [
                             'template' => "<div class=\"row\"><div class=\"col-md-12\">{label}{input}\n<span class=\"text-danger\">{error}</span></div></div>",
-                            'labelOptions' => ['class' => 'col-lg-1 control-label'],
                         ],
                     ]); ?>
 
-                    <?= $form->field($model, 'username', [
-                        'labelOptions' => ['class' => 'control-label']
-                    ])->textInput(['autofocus' => true]) ?>
+                    <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 
-                    <?= $form->field($model, 'password', [
-                        'labelOptions' => ['class' => 'control-label']
-                    ])->passwordInput() ?>
+                    <?= $form->field($model, 'password')->passwordInput() ?>
 
                     <?php //$form->field($model, 'rememberMe')->checkbox() ?>
 

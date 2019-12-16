@@ -10,6 +10,7 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+        '@profile' => 'account/profile'
     ],
     'defaultRoute' => 'site/index',
     'components' => [

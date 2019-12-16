@@ -24,7 +24,6 @@ $this->title = 'Register'; ?>
                         // 'layout' => 'horizontal',
                         'fieldConfig' => [
                             'template' => "<div class=\"row\"><div class=\"col-md-12\">{label}{input}\n<span class=\"text-danger\">{error}</span></div></div>",
-                            'labelOptions' => ['class' => 'col-lg-1 control-label'],
                         ],
                     ]); ?>
 
@@ -32,13 +31,11 @@ $this->title = 'Register'; ?>
                         <div class="col-md-6">
                             <?= $form->field($model, 'first_name', [
                                 'template' => "{label}{input}\n<span class=\"text-danger\">{error}</span>",
-                                'labelOptions' => ['class' => 'control-label']
                             ])->textInput(['autofocus' => true]) ?>
                         </div>
                         <div class="col-md-6">
                             <?= $form->field($model, 'last_name', [
                                 'template' => "{label}{input}\n<span class=\"text-danger\">{error}</span>",
-                                'labelOptions' => ['class' => 'control-label']
                             ])->textInput() ?>
                         </div>
                     </div>

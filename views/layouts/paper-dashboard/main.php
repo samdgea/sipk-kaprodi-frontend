@@ -110,36 +110,15 @@ AppAsset::register($this);
                         </button>
                         <div class="collapse navbar-collapse justify-content-end" id="navigation">
                             <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link btn-magnify" href="#pablo">
-                                        <i class="nc-icon nc-layout-11"></i>
-                                        <p>
-                                            <span class="d-lg-none d-md-block">Stats</span>
-                                        </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item btn-rotate dropdown">
-                                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="nc-icon nc-bell-55"></i>
-                                        <p>
-                                            <span class="d-lg-none d-md-block">Some Actions</span>
-                                        </p>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-                                </li>
                                 <li class="nav-item btn-rotate dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="accountDropMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="nc-icon nc-settings-gear-65"></i>
-                                        <p>
-                                            <span class="d-lg-none d-md-block">Account</span>
+                                        <i class="nc-icon nc-single-02"></i>
+                                        <p style="padding-right: 5px;">
+                                            <span>Account</span>
                                         </p>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropMenu">
-                                        <a class="dropdown-item" href="#">Profile</a>
+                                        <a class="dropdown-item" href="<?= Url::toRoute('@profile/index'); ?>">My Profile</a>
                                         <?= 
                                         Html::beginForm(['/site/logout'], 'post') .
                                         Html::submitButton(
@@ -196,6 +175,13 @@ AppAsset::register($this);
             </div>
             <!-- End div.main-panel -->
         </div>
+<?php 
+$js=<<< JS
+    jQuery(".alert").animate({opacity: 1.0}, 1000).delay(5000).fadeOut("slow");
+JS;
+
+$this->registerJs($js, yii\web\View::POS_READY);
+?>
         <!-- End div.wrapper -->
         <?php $this->endBody() ?>
     </body>
