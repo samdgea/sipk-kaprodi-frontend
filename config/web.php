@@ -10,7 +10,7 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
-        '@profile' => 'account/profile'
+        '@profile' => 'account/profile',
     ],
     'defaultRoute' => 'site/index',
     'components' => [
@@ -50,6 +50,11 @@ $config = [
             'showScriptName' => false,
             'rules' => [
             ],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            // uncomment if you want to cache RBAC items hierarchy
+            // 'cache' => 'cache',
         ],
     ],
     'params' => $params,

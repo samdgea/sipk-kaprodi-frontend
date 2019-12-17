@@ -19,6 +19,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use app\assets\AppAsset;
+use yii\helpers\ArrayHelper;
 
 AppAsset::register($this);
 ?>
@@ -32,6 +33,7 @@ AppAsset::register($this);
 
         <link rel="apple-touch-icon" sizes="76x76" href="<?= Url::base() ?>/img/apple-icon.png">
         <link rel="icon" type="image/png" href="<?= Url::base() ?>/img/favicon.png">
+        <?php $this->registerCsrfMetaTags() ?>
         
         <title><?= Html::encode($this->title . " - " . Yii::$app->params['application_name']) ?></title>
 
@@ -63,23 +65,42 @@ AppAsset::register($this);
                 </div>
                 <!-- End div.logo -->
                 <div class="sidebar-wrapper">
+                    <?php 
+                        $items = [
+                            [
+                                'label' => '<i class="nc-icon nc-bank"></i> <p>Home</p>', 
+                                'url' => ['/site/index']
+                            ],
+                            // [
+                            //     'label' => '<i class="nc-icon nc-single-02"></i> <p>About</p>', 
+                            //     'url' => ['/site/about']
+                            // ],
+                            // [
+                            //     'label' => '<i class="nc-icon nc-single-02"></i> <p>Contact</p>', 
+                            //     'url' => ['/site/contact']
+                            // ],
+                        ];
+
+                        $items_admin = [
+                            [
+                                'label' => '<i class="nc-icon nc-badge"></i> <p>User Management</p>',
+                                'url' => ['/admin/user/index']
+                            ], [
+                                'label' => '<i class="nc-icon nc-settings-gear-65"></i> <p>Role Management</p>',
+                                'url' => ['/admin/role/index']
+                            ], [
+                                'label' => '<i class="nc-icon nc-hat-3"></i> <p>Major Management</p>',
+                                'url' => ['/admin/major/index']
+                            ]
+                        ];
+
+                        if (Yii::$app->user->can('super-admin'))
+                            $items = ArrayHelper::merge($items, $items_admin);
+                    ?>
                     <?php
                         echo Nav::widget([
                             'options' => ['class' => 'nav'],
-                            'items' => [
-                                [
-                                    'label' => '<i class="nc-icon nc-bank"></i> <p>Home</p>', 
-                                    'url' => ['/site/index']
-                                ],
-                                [
-                                    'label' => '<i class="nc-icon nc-single-02"></i> <p>About</p>', 
-                                    'url' => ['/site/about']
-                                ],
-                                [
-                                    'label' => '<i class="nc-icon nc-single-02"></i> <p>Contact</p>', 
-                                    'url' => ['/site/contact']
-                                ],
-                            ],
+                            'items' => $items,
                             'encodeLabels' => false,
                         ]); 
                     ?>
@@ -112,9 +133,9 @@ AppAsset::register($this);
                             <ul class="navbar-nav">
                                 <li class="nav-item btn-rotate dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="accountDropMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="nc-icon nc-single-02"></i>
+                                        <i class="nc-icon nc-circle-10"></i>
                                         <p style="padding-right: 5px;">
-                                            <span>Account</span>
+                                            <span>Hola, <?= Yii::$app->user->identity->first_name ?>!</span>
                                         </p>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropMenu">
