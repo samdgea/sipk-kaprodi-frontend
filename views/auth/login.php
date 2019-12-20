@@ -14,7 +14,7 @@ $this->title = 'Login'; ?>
         <div class="offset-md-3 col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title"><i class="fa fa-sign-in"></i>&nbsp;Sign in to Application</h5>
+                    <h5 class="card-title"><i class="fa fa-sign-in"></i>&nbsp;Sign in to SIPK</h5>
                 </div>
                 <div class="card-body">
                     <p>Please fill out the following fields to login:</p>
