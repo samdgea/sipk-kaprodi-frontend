@@ -89,8 +89,8 @@ AppAsset::register($this);
                                 'label' => '<i class="nc-icon nc-settings-gear-65"></i> <p>Role Management</p>',
                                 'url' => ['/admin/role/index']
                             ], [
-                                'label' => '<i class="nc-icon nc-hat-3"></i> <p>Major Management</p>',
-                                'url' => ['/admin/major/index']
+                                'label' => '<i class="nc-icon nc-hat-3"></i> <p>Faculty Management</p>',
+                                'url' => ['/admin/faculty/index']
                             ]
                         ];
 

@@ -26,7 +26,8 @@
         "codeception/verify": "~0.4.0",
         "codeception/specify": "~0.4.6",
         "symfony/browser-kit": ">=2.7 <=4.2.4",
-        "guzzlehttp/guzzle": "~6.0"
+        "guzzlehttp/guzzle": "~6.0",
+        "kartik-v/yii2-widget-select2": "^2.1"
     },
     "require-dev": {
     },
