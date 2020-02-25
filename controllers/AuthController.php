@@ -80,6 +80,11 @@ class AuthController extends Controller
 
     public function actionRegister()
     {
+        if (!Yii::$app->params['allow_new_account_registration']) {
+            Yii::$app->getSession()->setFlash('error', 'Sorry, Account Registration has been disabled by Administrator');
+            return $this->goBack();
+        }
+
         $model = new RegisterForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->doRegister()) {
