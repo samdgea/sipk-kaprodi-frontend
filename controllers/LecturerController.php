@@ -1,23 +1,21 @@
 <?php
 
-namespace app\controllers\admin;
+namespace app\controllers;
 
 use Yii;
-use app\models\Faculty;
-use app\models\Search\FacultySearch;
-use app\models\Search\MajorSearch;
+use app\models\Lecturer;
+use app\models\Search\LecturerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 /**
- * FacultyController implements the CRUD actions for Faculty model.
+ * LecturerController implements the CRUD actions for Lecturer model.
  */
-class FacultyController extends Controller
+class LecturerController extends Controller
 {
     public $layout = 'paper-dashboard/main';
-
+    
     /**
      * {@inheritdoc}
      */
@@ -30,46 +28,16 @@ class FacultyController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index'],
-                        'roles' => ['browse-faculty-management']
-                    ], [
-                        'allow' => true,
-                        'actions' => ['view'],
-                        'roles' => ['read-faculty-management']
-                    ], [
-                        'allow' => true,
-                        'actions' => ['update'],
-                        'roles' => ['edit-faculty-management']
-                    ], [
-                        'allow' => true,
-                        'actions' => ['create'],
-                        'roles' => ['add-faculty-management']
-                    ], [
-                        'allow' => true,
-                        'actions' => ['delete'],
-                        'roles' => ['delete-faculty-management']
-                    ]
-                ],
-                'denyCallback' => function($r, $a) {
-                    Yii::$app->session->setFlash('danger', 'You are not authorized to access this module');
-                    return Yii::$app->response->redirect('/site/index');
-                }
-            ],
         ];
     }
 
     /**
-     * Lists all Faculty models.
+     * Lists all Lecturer models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new FacultySearch();
+        $searchModel = new LecturerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -79,31 +47,26 @@ class FacultyController extends Controller
     }
 
     /**
-     * Displays a single Faculty model.
+     * Displays a single Lecturer model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $majorSearchModel = new MajorSearch();
-        $majorDataProvider = $majorSearchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'majorDataProvider' => $majorDataProvider,
-            'majorSearchModel' => $majorSearchModel,
         ]);
     }
 
     /**
-     * Creates a new Faculty model.
+     * Creates a new Lecturer model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Faculty();
+        $model = new Lecturer();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -115,7 +78,7 @@ class FacultyController extends Controller
     }
 
     /**
-     * Updates an existing Faculty model.
+     * Updates an existing Lecturer model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -135,7 +98,7 @@ class FacultyController extends Controller
     }
 
     /**
-     * Deletes an existing Faculty model.
+     * Deletes an existing Lecturer model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -149,15 +112,15 @@ class FacultyController extends Controller
     }
 
     /**
-     * Finds the Faculty model based on its primary key value.
+     * Finds the Lecturer model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Faculty the loaded model
+     * @return Lecturer the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Faculty::findOne($id)) !== null) {
+        if (($model = Lecturer::findOne($id)) !== null) {
             return $model;
         }
 

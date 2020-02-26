@@ -1,51 +1,107 @@
 <?php
 
+use app\models\Faculty;
+use practically\chartjs\Chart;
+use yii\helpers\ArrayHelper;
+use app\models\Major;
+use yii\helpers\Html;
+
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Dashboard';
 ?>
 <div class="site-index">
-
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
 
     <div class="body-content">
 
         <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+            <div class="col-lg-6">
+                <h1>Fakultas Teknik</h1>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <?= Html::beginForm(); ?>
+                        <?= Html::dropDownList(
+                            'faculty', 
+                            '',
+                            ArrayHelper::map(
+                                Faculty::find()->all(), 
+                                'id', 
+                                'name'
+                            ),
+                            [
+                                'class' => 'form-control'
+                            ]
+                            ); ?>
+                        <?= Html::endForm(); ?>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <?= Html::beginForm(); ?>
+                        <?= Html::dropDownList(
+                            'major', 
+                            '',
+                            ArrayHelper::map(
+                                Major::find()->where(['faculty_id' => 1])->all(), 
+                                'id', 
+                                'name'
+                            ),
+                            [
+                                'class' => 'form-control'
+                            ]
+                            ); ?>
+                        <?= Html::endForm(); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">        
+                        <?= Chart::widget([
+                            'type' => Chart::TYPE_BAR,
+                            'datasets' => [
+                                [
+                                    'label' => 'Mahasiswa',
+                                    'data' => [
+                                        '2016' => 28,
+                                        '2017' => 30,
+                                        '2018' => 93,
+                                        '2019' => 20,
+                                        '2020' => 0
+                                    ]
+                                ]
+                            ]
+                        ]); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">   
+                        <?= Chart::widget([
+                                'type' => Chart::TYPE_BAR,
+                                'datasets' => [
+                                    [
+                                        'label' => 'Dosen',
+                                        'data' => [
+                                            '2016' => 28,
+                                            '2017' => 30,
+                                            '2018' => 93,
+                                            '2019' => 20,
+                                            '2020' => 0
+                                        ]
+                                    ]
+                                ]
+                            ]); ?>
+                    </div>
+                </div>
             </div>
         </div>
 

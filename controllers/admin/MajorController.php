@@ -9,6 +9,7 @@ use app\models\Search\MajorSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * MajorController implements the CRUD actions for Major model.
@@ -28,6 +29,36 @@ class MajorController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index'],
+                        'roles' => ['browse-faculty-management']
+                    ], [
+                        'allow' => true,
+                        'actions' => ['view'],
+                        'roles' => ['read-faculty-management']
+                    ], [
+                        'allow' => true,
+                        'actions' => ['update'],
+                        'roles' => ['edit-faculty-management']
+                    ], [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['add-faculty-management']
+                    ], [
+                        'allow' => true,
+                        'actions' => ['delete'],
+                        'roles' => ['delete-faculty-management']
+                    ]
+                ],
+                'denyCallback' => function($r, $a) {
+                    Yii::$app->session->setFlash('danger', 'You are not authorized to access this module');
+                    return Yii::$app->response->redirect('/site/index');
+                }
             ],
         ];
     }

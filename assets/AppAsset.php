@@ -27,6 +27,7 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/core/bootstrap.min.js',
         'js/paper-dashboard/paper-dashboard.min.js?v=2.0.0',
+        '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'
         // 'js/demo.js'
     ];
     public $depends = [

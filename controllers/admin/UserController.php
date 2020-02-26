@@ -25,23 +25,23 @@ class UserController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index'],
-                        'roles' => ['manageUserManagement']
+                        'roles' => ['browse-user-management']
                     ], [
                         'allow' => true,
                         'actions' => ['view'],
-                        'roles' => ['viewUserManagement']
+                        'roles' => ['read-user-management']
                     ], [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['updateUserManagement']
+                        'roles' => ['edit-user-management']
                     ], [
                         'allow' => true,
                         'actions' => ['create'],
-                        'roles' => ['createUserManagement']
+                        'roles' => ['add-user-management']
                     ], [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['deleteUserManagement']
+                        'roles' => ['delete-user-management']
                     ]
                 ],
                 'denyCallback' => function($r, $a) {

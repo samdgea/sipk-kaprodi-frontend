@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = 'Create Major';
 $this->params['breadcrumbs'][] = ['label' => 'Majors', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
+$faculty = "";
 if (!empty($facultyModel) && $facultyModel->id) {
     $faculty = "- " . $facultyModel->name;
 }

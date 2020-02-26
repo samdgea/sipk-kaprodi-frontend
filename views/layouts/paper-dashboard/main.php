@@ -70,6 +70,12 @@ AppAsset::register($this);
                             [
                                 'label' => '<i class="nc-icon nc-bank"></i> <p>Home</p>', 
                                 'url' => ['/site/index']
+                            ], [
+                                'label' => '<i class="nc-icon nc-single-02"></i> <p>Students</p>', 
+                                'url' => ['/student/index']
+                            ], [
+                                'label' => '<i class="nc-icon nc-single-02"></i> <p>Lecturer</p>', 
+                                'url' => ['/lecturer/index']
                             ],
                             // [
                             //     'label' => '<i class="nc-icon nc-single-02"></i> <p>About</p>', 
@@ -81,21 +87,25 @@ AppAsset::register($this);
                             // ],
                         ];
 
-                        $items_admin = [
-                            [
-                                'label' => '<i class="nc-icon nc-badge"></i> <p>User Management</p>',
-                                'url' => ['/admin/user/index']
-                            ], [
-                                'label' => '<i class="nc-icon nc-settings-gear-65"></i> <p>Role Management</p>',
-                                'url' => ['/admin/role/index']
-                            ], [
-                                'label' => '<i class="nc-icon nc-hat-3"></i> <p>Faculty Management</p>',
-                                'url' => ['/admin/faculty/index']
-                            ]
-                        ];
+                        if (Yii::$app->user->can('User Management'))
+                            $items = ArrayHelper::merge($items, [
+                                [
+                                    'label' => '<i class="nc-icon nc-badge"></i> <p>User Management</p>',
+                                    'url' => ['/admin/user/index']
+                                ]
+                            ]);
 
-                        if (Yii::$app->user->can('super-admin'))
-                            $items = ArrayHelper::merge($items, $items_admin);
+                        if (Yii::$app->user->can('Faculty Management'))
+                            $items = ArrayHelper::merge($items, [
+                                [
+                                    'label' => '<i class="nc-icon nc-hat-3"></i> <p>Faculty Management</p>',
+                                    'url' => ['/admin/faculty/index']
+                                ]
+                            ]);
+
+
+                        // if (Yii::$app->user->can('Super Administrator'))
+                        //     $items = ArrayHelper::merge($items, $items_admin);
                     ?>
                     <?php
                         echo Nav::widget([
