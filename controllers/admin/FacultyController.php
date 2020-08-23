@@ -44,11 +44,11 @@ class FacultyController extends Controller
                     ], [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['edit-faculty-management']
+                        'roles' => ['update-faculty-management']
                     ], [
                         'allow' => true,
                         'actions' => ['create'],
-                        'roles' => ['add-faculty-management']
+                        'roles' => ['create-faculty-management']
                     ], [
                         'allow' => true,
                         'actions' => ['delete'],

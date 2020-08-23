@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Faculty */
@@ -71,6 +72,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Actions',
                 'template' => '<div class="col-md-12 text-center"><div class="btn-group">{view} {update} {delete}</div></div>',
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    return Url::to(["admin/major/" . $action . "?id=" . $key]);
+                },
                 'buttons' => [
                     'view' => function($url, $model) {
                         $icon = Html::tag('span', '', ['class' => 'nc-icon nc-zoom-split']);

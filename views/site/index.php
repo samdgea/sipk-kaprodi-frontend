@@ -4,6 +4,8 @@ use app\models\Faculty;
 use practically\chartjs\Chart;
 use yii\helpers\ArrayHelper;
 use app\models\Major;
+use app\models\SapMahasiswa;
+use app\models\SapDosen;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -69,13 +71,7 @@ $this->title = 'Dashboard';
                             'datasets' => [
                                 [
                                     'label' => 'Mahasiswa',
-                                    'data' => [
-                                        '2016' => 28,
-                                        '2017' => 30,
-                                        '2018' => 93,
-                                        '2019' => 20,
-                                        '2020' => 0
-                                    ]
+                                    'data' => SapMahasiswa::find()->select('total_mhs')->indexBy('periode_smt')->column()   
                                 ]
                             ]
                         ]); ?>
@@ -90,13 +86,7 @@ $this->title = 'Dashboard';
                                 'datasets' => [
                                     [
                                         'label' => 'Dosen',
-                                        'data' => [
-                                            '2016' => 28,
-                                            '2017' => 30,
-                                            '2018' => 93,
-                                            '2019' => 20,
-                                            '2020' => 0
-                                        ]
+                                        'data' => SapDosen::find()->select('total_dsn')->indexBy('periode_smt')->column()   
                                     ]
                                 ]
                             ]); ?>

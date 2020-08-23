@@ -36,23 +36,23 @@ class MajorController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index'],
-                        'roles' => ['browse-faculty-management']
+                        'roles' => ['browse-major-management']
                     ], [
                         'allow' => true,
                         'actions' => ['view'],
-                        'roles' => ['read-faculty-management']
+                        'roles' => ['read-major-management']
                     ], [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['edit-faculty-management']
+                        'roles' => ['update-major-management']
                     ], [
                         'allow' => true,
                         'actions' => ['create'],
-                        'roles' => ['add-faculty-management']
+                        'roles' => ['create-major-management']
                     ], [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['delete-faculty-management']
+                        'roles' => ['delete-major-management']
                     ]
                 ],
                 'denyCallback' => function($r, $a) {

@@ -51,12 +51,12 @@ AppAsset::register($this);
             <div class="sidebar" data-color="white" data-active-color="danger">
                 <!-- Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow" -->
                 <div class="logo">
-                    <a href="http://www.creative-tim.com" class="simple-text logo-mini">
+                    <a href="<?= Url::base() ?>" class="simple-text logo-mini">
                         <div class="logo-image-small">
                             <img src="<?= Url::base() ?>/img/logo-small.png">
                         </div>
                     </a>
-                    <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+                    <a href="<?= Url::base() ?>" class="simple-text logo-normal">
                         <?= Yii::$app->params['application_name'] ?>
                         <!-- <div class="logo-image-big">
                             <img src="<?= Url::base() ?>/assets/img/logo-big.png">
@@ -70,13 +70,14 @@ AppAsset::register($this);
                             [
                                 'label' => '<i class="nc-icon nc-bank"></i> <p>Home</p>', 
                                 'url' => ['/site/index']
-                            ], [
-                                'label' => '<i class="nc-icon nc-single-02"></i> <p>Students</p>', 
-                                'url' => ['/student/index']
-                            ], [
-                                'label' => '<i class="nc-icon nc-single-02"></i> <p>Lecturer</p>', 
-                                'url' => ['/lecturer/index']
                             ],
+                            // [
+                            //     'label' => '<i class="nc-icon nc-single-02"></i> <p>Students</p>', 
+                            //     'url' => ['/student/index']
+                            // ], [
+                            //     'label' => '<i class="nc-icon nc-single-02"></i> <p>Lecturer</p>', 
+                            //     'url' => ['/lecturer/index']
+                            // ],
                             // [
                             //     'label' => '<i class="nc-icon nc-single-02"></i> <p>About</p>', 
                             //     'url' => ['/site/about']
@@ -87,7 +88,7 @@ AppAsset::register($this);
                             // ],
                         ];
 
-                        if (Yii::$app->user->can('User Management'))
+                        if (Yii::$app->user->can('browse-user-management'))
                             $items = ArrayHelper::merge($items, [
                                 [
                                     'label' => '<i class="nc-icon nc-badge"></i> <p>User Management</p>',
@@ -95,7 +96,7 @@ AppAsset::register($this);
                                 ]
                             ]);
 
-                        if (Yii::$app->user->can('Faculty Management'))
+                        if (Yii::$app->user->can('browse-major-management'))
                             $items = ArrayHelper::merge($items, [
                                 [
                                     'label' => '<i class="nc-icon nc-hat-3"></i> <p>Faculty Management</p>',

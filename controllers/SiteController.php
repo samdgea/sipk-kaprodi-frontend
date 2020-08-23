@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\Forms\ContactForm;
 
+use app\models\SapMahasiswa;
+
 class SiteController extends Controller
 {
     public $layout = 'paper-dashboard/main';
